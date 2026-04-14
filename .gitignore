@@ -1,0 +1,40 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+build/
+dist/
+*.egg-info/
+
+# Virtual environments
+.env
+.env.*
+.venv
+venv/
+env/
+ENV/
+
+# Flask
+instance/
+.webassets-cache
+
+# Secrets
+credentials.json
+secrets.json
+*.key
+*.pem
+config/secrets.*
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log

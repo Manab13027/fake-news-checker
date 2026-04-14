@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row g-4">
+  <div class="col-lg-7">
+    <div class="glass p-4">
+      <h4 class="mb-3">Analyze a claim</h4>
+      <form action="/analyze" method="post" enctype="multipart/form-data">
+        <div class="mb-3">
+          <label class="form-label">URL (news site, YouTube, Twitter/X, etc.)</label>
+          <input type="url" name="url" class="form-control" placeholder="https://example.com/article-or-post">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Claim / Text</label>
+          <textarea name="text" class="form-control" rows="5" placeholder="Paste the text or claim here..."></textarea>
+        </div>
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label class="form-label">Image (JPEG/PNG)</label>
+            <input type="file" name="image" accept=".jpg,.jpeg,.png" class="form-control">
+          </div>
+          <div class="col-md-6 mb-3">
+            <label class="form-label">Video (MP4/MOV/AVI)</label>
+            <input type="file" name="video" accept=".mp4,.mov,.avi" class="form-control">
+          </div>
+        </div>
+        <button class="btn btn-primary btn-lg" type="submit">🔎 Analyze</button>
+      </form>
+    </div>
+  </div>
+  <div class="col-lg-5">
+    <div class="glass p-4 mb-4">
+      <h5>How it works</h5>
+      <ul class="mb-0">
+        <li>Calculates a <b>confidence score</b> (0–100, higher = more credible)</li>
+        <li>Breakdown: Source, Text, Image, Video, Social</li>
+        <li>Auto-fetches page text from the URL to improve Text scoring</li>
+        <li>Download a <b>JSON</b> or <b>Markdown</b> report</li>
+      </ul>
+    </div>
+    <div class="glass p-4">
+      <h5>Notes</h5>
+      <p class="mb-0">This is a heuristic triage tool. Always corroborate with authoritative sources, reverse-image search, and established fact-checkers.</p>
+    </div>
+  </div>
+</div>
+{% endblock %}

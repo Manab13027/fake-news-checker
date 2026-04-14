@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="glass p-4">
+  <div class="d-flex align-items-center justify-content-between">
+    <h4 class="mb-0">Report</h4>
+    <div>
+      <a href="/download/md" class="btn btn-outline-secondary btn-sm">⬇️ Markdown</a>
+      <a href="/download/json" class="btn btn-outline-secondary btn-sm">⬇️ JSON</a>
+      <a href="/" class="btn btn-primary btn-sm">New analysis</a>
+    </div>
+  </div>
+  <hr>
+  <div class="row g-4">
+    <div class="col-md-4">
+      <div class="glass p-3">
+        <h6 class="text-muted">Final Confidence</h6>
+        <div class="display-5">{{ result.final_confidence }}/100</div>
+        <small class="text-muted">{{ result.confidence_scale }}</small>
+      </div>
+    </div>
+    <div class="col-md-8">
+      <div class="glass p-3">
+        <h6 class="text-muted mb-3">Scores</h6>
+        <canvas id="scoreChart" height="110"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="row g-4 mt-1">
+    <div class="col-md-6">
+      <div class="glass p-3 h-100">
+        <h6 class="text-muted">Breakdown</h6>
+        <ul>
+          <li><b>Source / Domain:</b> {{ result.sections.source.score }}/{{ result.sections.source.max_score }} — {{ result.sections.source.notes }}</li>
+          <li><b>Content / Text:</b> {{ result.sections.text.score }}/{{ result.sections.text.max_score }} — {{ result.sections.text.notes }}</li>
+          <li><b>Image Forensics:</b> {{ result.sections.image.score }}/{{ result.sections.image.max_score }} — {{ result.sections.image.notes }}</li>
+          <li><b>Video Heuristics:</b> {{ result.sections.video.score }}/{{ result.sections.video.max_score }} — {{ result.sections.video.notes }}</li>
+          <li><b>Social Signals:</b> {{ result.sections.social.score }}/{{ result.sections.social.max_score }} — {{ result.sections.social.notes }}</li>
+        </ul>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="glass p-3 h-100">
+        <h6 class="text-muted">Inputs</h6>
+        <pre class="small mb-0">{{ result.inputs | tojson(indent=2) }}</pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const ctx = document.getElementById('scoreChart');
+const data = {
+  labels: ['Source(40)', 'Text(30)', 'Image(20)', 'Video(10)', 'Social(±10)'],
+  datasets: [{
+    label: 'Scores',
+    data: [
+      {{ result.sections.source.score|round(1) }},
+      {{ result.sections.text.score|round(1) }},
+      {{ result.sections.image.score|round(1) }},
+      {{ result.sections.video.score|round(1) }},
+      {{ result.sections.social.score|round(1) }}
+    ]
+  }]
+};
+new Chart(ctx, {type:'bar', data: data, options: {scales:{y:{beginAtZero:true, suggestedMax:40}}}});
+</script>
+{% endblock %}
